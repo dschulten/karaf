@@ -19,6 +19,7 @@
 <features name="karaf-camel-example-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0">
 
     <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
+    <repository>mvn:io.zipkin.brave.karaf/brave-features/0.1.2/xml/features</repository>
 
     <feature name="karaf-camel-example-common" version="${project.version}">
         <feature prerequisite="true">aries-blueprint</feature>
@@ -26,6 +27,9 @@
         <feature>camel-jetty</feature>
         <feature>camel-jsonpath</feature>
         <feature>camel-mail</feature>
+        <feature>camel-zipkin</feature>
+        <feature>brave</feature>
+        <feature>brave-sender-okhttp</feature>
         <capability>
             osgi.service;objectClass=org.apache.aries.blueprint.NamespaceHandler;osgi.service.blueprint.namespace=http://camel.apache.org/schema/blueprint;effective:=active;
         </capability>
