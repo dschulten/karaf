@@ -21,6 +21,8 @@ public class ExampleCamelRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+        interceptFrom().bean("tracingBaggageSupplier");
+
         from("jetty:http://0.0.0.0:9090/example")
                 .id("example-http-inbound")
                 .convertBodyTo(String.class)

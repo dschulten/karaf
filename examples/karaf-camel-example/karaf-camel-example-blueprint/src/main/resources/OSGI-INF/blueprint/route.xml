@@ -18,6 +18,14 @@
 -->
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
 
+    <reference id="braveTracing" interface="brave.Tracing"/>
+
+    <bean id="tracer" factory-ref="braveTracing" factory-method="tracer" />
+
+    <bean id="ottracer" class="org.apache.camel.opentracing.OpenTracingTracer">
+        <property name="tracer" ref="tracer"/>
+    </bean>
+
     <camelContext xmlns="http://camel.apache.org/schema/blueprint">
         <route id="example-http-inbound">
             <from uri="jetty:http://0.0.0.0:9090/example"/>

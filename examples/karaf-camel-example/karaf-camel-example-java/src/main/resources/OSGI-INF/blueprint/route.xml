@@ -20,6 +20,31 @@
 
     <bean id="routeBuilder" class="org.apache.karaf.examples.camel.java.ExampleCamelRouteBuilder"/>
 
+    <bean id="tracingBaggageSupplier" class="org.apache.karaf.examples.camel.java.TracingBaggageSupplier"/>
+
+    <reference id="reporter" interface="zipkin2.reporter.Reporter"/>
+
+    <bean id="openTracingTracerFactory"
+          class="org.apache.karaf.examples.camel.java.BraveOpenTracingTracerFactory">
+        <property name="baggageKeys">
+            <list>process-instance-id</list>
+        </property>
+        <property name="tracerObservers">
+            <list>
+                <bean class="org.apache.karaf.examples.camel.java.MdcTracerObserver"/>
+            </list>
+        </property>
+        <property name="localServiceName" value="example-service"/>
+    </bean>
+
+    <bean id="tracer" factory-ref="openTracingTracerFactory" factory-method="openTracingTracer">
+        <argument ref="reporter"/>
+    </bean>
+
+    <bean id="ottracer" class="org.apache.camel.opentracing.OpenTracingTracer">
+        <property name="tracer" ref="tracer"/>
+    </bean>
+
     <camelContext xmlns="http://camel.apache.org/schema/blueprint">
         <routeBuilder ref="routeBuilder"/>
     </camelContext>
